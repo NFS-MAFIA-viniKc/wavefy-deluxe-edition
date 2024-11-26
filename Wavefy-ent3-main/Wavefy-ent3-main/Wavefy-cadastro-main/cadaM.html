@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wavefy - Cadastro de Música</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #3a3a3a;
+            color: white;
+        }
+        .header {
+            background-color: #1a1a1a;
+            color: #00e5ff;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        .formContainer {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #4d4d4d;
+            border-radius: 5px;
+            max-width: 400px;
+        }
+        input[type="text"], input[type="time"], input[type="url"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        input[type="submit"], .backButton, .clearButton {
+            background-color: #00e5ff;
+            color: black;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        input[type="submit"]:hover, .backButton:hover, .clearButton:hover {
+            background-color: #008f9b;
+        }
+        input[type="file"] {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Cadastro de Música</h1>
+    </div>
+
+    <div class="formContainer">
+        <form id="musicForm">
+            <input type="text" id="titulo" placeholder="Título" required>
+            <input type="text" id="artista" placeholder="Artista" required>
+            <input type="time" id="duracao" placeholder="Duração" required>
+            <input type="file" id="audioFile" accept="audio/mp3" required>
+            <input type="submit" value="Salvar Música">
+            <button type="button" class="backButton" onclick="window.location.href='index.html'">Voltar para Início</button>
+            <button type="button" class="clearButton" onclick="clearLocalStorage()">Limpar Músicas</button>
+        </form>
+    </div>
+
+    <script>
+        // Função para ler o arquivo e convertê-lo para base64
+        function encodeAudioFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = function () {
+                    resolve(reader.result); // Retorna o arquivo em base64
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file); // Converte o arquivo para base64
+            });
+        }
+
+        document.getElementById('musicForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+
+            const titulo = document.getElementById('titulo').value;
+            const artista = document.getElementById('artista').value;
+            const duracao = document.getElementById('duracao').value;
+            const audioFile = document.getElementById('audioFile').files[0]; // Obtém o arquivo de áudio
+
+            // Verifica se todos os campos estão preenchidos
+            if (!titulo || !artista || !duracao || !audioFile) {
+                alert("Por favor, preencha todos os campos.");
+                return;
+            }
+
+            // Converte o arquivo de áudio para base64
+            encodeAudioFile(audioFile).then(base64Audio => {
+                const key = `musica_${Date.now()}`;
+                const musicData = `${titulo}|${artista}|${duracao}|${base64Audio}`;
+                localStorage.setItem(key, musicData); // Salva no localStorage com base64
+
+                // Limpa o formulário
+                this.reset();
+                alert('Música cadastrada com sucesso!');
+
+                // Opcional: Atualiza a lista de músicas cadastradas
+                window.location.href = 'index.html'; // Redireciona para a página inicial
+            }).catch(error => {
+                alert("Erro ao processar o arquivo de áudio: " + error);
+            });
+        });
+
+        function clearLocalStorage() {
+            if (confirm("Tem certeza de que deseja limpar todas as músicas?")) {
+                localStorage.clear(); // Limpa todo o localStorage
+                alert("Todas as músicas foram removidas!");
+            }
+        }
+    </script>
+</body>
+</html>

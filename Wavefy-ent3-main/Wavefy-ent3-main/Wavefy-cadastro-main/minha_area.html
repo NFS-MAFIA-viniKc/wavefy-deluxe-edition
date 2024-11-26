@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Músicas Curtidas</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #3a3a3a;
+        }
+        .header {
+            background-color: #1a1a1a;
+            color: #00e5ff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-family: 'Brush Script MT', cursive;
+        }
+        .mainContent {
+            margin: 20px;
+            background-color: #4d4d4d;
+            padding: 20px;
+            color: white;
+        }
+        .recentes {
+            background-color: #3a3a3a;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .recentes h2 {
+            margin-top: 0;
+        }
+        .recentItem {
+            display: flex;
+            align-items: center;
+            background-color: black;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Wavefy</h1>
+    </div>
+    <div class="mainContent">
+        <div class="recentes">
+            <h2>Músicas Curtidas</h2>
+            <div id="likedItems"></div>
+        </div>
+    </div>
+
+    <script>
+        function likedMusic() { 
+            const likedItemsDiv = document.getElementById('likedItems');
+            likedItemsDiv.innerHTML = ''; 
+
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('musica_')) {
+                    const curtirKey = "_c_" + key;
+                    if (localStorage.getItem(curtirKey)) {
+                        const musicData = localStorage.getItem(key);
+                        const musicInfo = musicData.split('|');
+
+                        if (musicInfo.length === 4) {
+                            const titulo = musicInfo[0];
+                            const artista = musicInfo[1];
+                            const duracao = musicInfo[2];
+                            const url = musicInfo[3];
+
+                            const itemDiv = document.createElement('div');
+                            itemDiv.className = 'recentItem';
+                            itemDiv.innerHTML = `${titulo} - ${artista} (${duracao}) <a href="${url}" target="_blank">Ouvir</a>`;
+                            likedItemsDiv.appendChild(itemDiv);
+                        }
+                    }
+                }
+            }
+
+            if (likedItemsDiv.innerHTML === '') {
+                likedItemsDiv.innerHTML = '<p>Nenhuma música curtida encontrada.</p>';
+            }
+        }
+        
+        window.onload = likedMusic;    
+    </script>    
+</body>
+</html>

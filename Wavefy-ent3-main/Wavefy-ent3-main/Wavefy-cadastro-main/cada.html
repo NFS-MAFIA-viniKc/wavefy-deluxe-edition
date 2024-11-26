@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #00BFFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            background-color: white;
+            width: 800px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcomeSection {
+            background-color: #00BFFF;
+            color: white;
+            width: 50%;
+            padding: 40px;
+            border-radius: 20px 0 0 20px;
+        }
+
+        .welcomeSection h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .cadaSection {
+            width: 50%;
+            padding: 40px;
+            border-radius: 0 20px 20px 0;
+            background-color: #F7F7F7;
+        }
+
+        .cadaSection h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .cadaSection p {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #666;
+        }
+
+        .cadaSection label {
+            font-weight: bold;
+            color: #00BFFF;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .cadaSection input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #CCC;
+            border-radius: 5px;
+            background-color: #E8E8E8;
+        }
+
+        .cadaSection button {
+            width: 100%;
+            padding: 10px;
+            background-color: #00BFFF;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .cadaSection button:hover {
+            background-color: #008FCC;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcomeSection">
+            <h1>Bem Vindo!</h1>
+            <p>Para começar em nosso site faça seu cadastro e ouça suas músicas na sua onda.</p>
+        </div>
+        <div class="cadaSection">
+            <h2>Cadastro</h2>
+            <p>Digite seus dados nos campos abaixo</p>
+            <form id="cadaForm">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" placeholder="Digite seu e-mail" required>
+                <label for="pemail">Confirme seu e-mail</label>
+                <input type="email" id="pemail" placeholder="Confirme seu e-mail" required>
+                <label for="password">Senha</label>
+                <input type="password" id="password" placeholder="Digite sua senha" required>
+                <label for="ppassword">Confirme sua senha</label>
+                <input type="password" id="ppassword" placeholder="Confirme sua senha" required>
+                <button type="submit">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("cadaForm").addEventListener("submit", function(event) {
+            event.preventDefault(); 
+
+            var email = document.getElementById("email").value;
+            var pemail = document.getElementById("pemail").value;
+            var password = document.getElementById("password").value;
+            var ppassword = document.getElementById("ppassword").value;
+
+            if (email !== pemail) {
+                alert("O email não confere; Digite novamente");
+            } else if (password !== ppassword) {
+                alert("A senha não confere; Digite novamente");
+            } else {
+                localStorage.setItem('email', email);
+                localStorage.setItem('password', password);
+                window.location.href = "pl.html";
+            }
+        });
+    </script>
+</body>
+</html>

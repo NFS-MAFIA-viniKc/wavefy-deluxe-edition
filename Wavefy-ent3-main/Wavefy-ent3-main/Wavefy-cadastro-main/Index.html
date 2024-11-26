@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wavefy - Início</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #3a3a3a;
+            color: white;
+            display: flex;
+        }
+
+        .header {
+            background-color: #1a1a1a;
+            color: #00e5ff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-family: 'Brush Script MT', cursive;
+        }
+
+        /* Barra lateral */
+        .sidebar {
+            background-color: #1a1a1a;
+            color: #00e5ff;
+            width: 200px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: #00e5ff;
+            font-size: 18px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 10px;
+            justify-content: center;
+        }
+
+        .sidebar a:hover {
+            background-color: #008f9b;
+            color: white;
+        }
+
+        .sidebar img {
+            width: 30px;
+            margin-right: 10px;
+        }
+
+        /* Conteúdo principal */
+        .mainContent {
+            margin-left: 200px;
+            padding: 20px;
+            flex-grow: 1;
+            background-color: #4d4d4d;
+        }
+
+        h2 {
+            color: #00e5ff;
+        }
+
+        .musicItem {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #2a2a2a;
+            border-radius: 5px;
+        }
+
+        .musicItem h3 {
+            margin: 0;
+            color: #00e5ff;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .backButton {
+            background-color: #00e5ff;
+            color: black;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        .backButton:hover {
+            background-color: #008f9b;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Wavefy</h1>
+    </div>
+
+    <div class="sidebar">
+        <a href="index.html">
+            <img src="home-icon.png" alt="Ícone de Início"> Início
+        </a>
+        <a href="cadaM.html">
+            <img src="cadastro.png" alt="Ícone de Cadastro"> Cadastro
+        </a>
+        <a href="minha_area.html">
+            <img src="playlist-icon.png" alt="Ícone de Playlists"> Playlists
+        </a>
+        <a href="perfil.html">
+            <img src="perfil.png" alt="Ícone de Perfil"> Perfil
+        </a>
+        <a href="search.html">
+            <img src="search-icon.png" alt="Ícone de Buscar"> Buscar
+        </a>
+    </div>
+
+    
+    <div class="mainContent">
+        <h2>Recentes</h2>
+        <div id="musicPlayerList"></div>
+
+        <a href="cadaM.html" class="backButton">Cadastrar Nova Música</a>
+    </div>
+
+    <script>
+        
+        function loadMusic() {
+            const musicPlayerListDiv = document.getElementById('musicPlayerList');
+            musicPlayerListDiv.innerHTML = ''; 
+
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('musica_')) {
+                    const musicData = localStorage.getItem(key);
+                    const musicInfo = musicData.split('|');
+                    if (musicInfo.length === 4) {
+                        const [titulo, artista, duracao, base64Audio] = musicInfo;
+                        
+                        const musicItemDiv = document.createElement('div');
+                        musicItemDiv.className = 'musicItem';
+ 
+                        musicItemDiv.innerHTML = `<h3>${titulo}</h3><p>${artista} - ${duracao}</p>`;
+                        
+                        const audioElement = document.createElement('audio');
+                        audioElement.controls = true;
+                        audioElement.src = base64Audio; 
+                        
+                        musicItemDiv.appendChild(audioElement);
+
+                        musicPlayerListDiv.appendChild(musicItemDiv);
+                    }
+                }
+            }
+        }
+
+        window.onload = loadMusic;
+    </script>
+
+</body>
+</html>

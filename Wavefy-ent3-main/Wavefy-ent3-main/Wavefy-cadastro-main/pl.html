@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #00BFFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            background-color: white;
+            width: 800px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcomeSection {
+            background-color: #00BFFF;
+            color: white;
+            width: 50%;
+            padding: 40px;
+            border-radius: 20px 0 0 20px;
+        }
+
+        .loginSection {
+            width: 50%;
+            padding: 40px;
+            border-radius: 0 20px 20px 0;
+            background-color: #F7F7F7;
+        }
+
+        .loginSection h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .loginSection p {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #666;
+        }
+
+        .loginSection label {
+            font-weight: bold;
+            color: #00BFFF;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .loginSection input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #CCC;
+            border-radius: 5px;
+            background-color: #E8E8E8;
+        }
+
+        .loginSection a {
+            color: black;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .loginSection button {
+            width: 100%;
+            padding: 10px;
+            background-color: #00BFFF;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .loginSection button:hover {
+            background-color: #008FCC;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="welcomeSection">
+            <h1>Bem Vindo!</h1>
+            <p>Para começar em nosso site faça seu login e ouça suas músicas na sua onda.</p>
+        </div>
+        <div class="loginSection">
+            <h2>LOGIN</h2>
+            <p>Digite seus dados nos campos abaixo</p>
+            <form id="loginForm">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" placeholder="Digite seu e-mail" required>
+                <label for="password">Senha</label>
+                <input type="password" id="password" placeholder="Digite sua senha" required>
+                <a href="#">Esqueci minha senha</a>
+                <button type="submit">Acessar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            let emailc = localStorage.getItem('email');
+            let passwordc = localStorage.getItem('password');
+
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+
+            if (email === emailc && password === passwordc) {
+                let login = true;
+                localStorage.setItem("login", login);
+                window.location.href = "Index.html"; 
+            } else {
+                alert("E-mail ou senha incorretos!");
+            }
+        });
+    </script>
+
+</body>
+</html>
